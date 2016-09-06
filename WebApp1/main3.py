@@ -56,6 +56,7 @@ def plot2(s):
 	prices = ffn.get(stocks, start=df_min_string, end=df_max_string)
 	# let's compare the relative performance of each stock
 	# we will rebase here to get a common starting point for both securities
+	
 	ax = prices.rebase().plot(figsize=(10,5))
 	# save the figure
 	fig = ax.get_figure()
@@ -100,7 +101,13 @@ def parse_xml(html):
 def index():
 	return render_template("HomePage.html", df=df, fig=fig, figdata_svg=figdata_svg)
 
-
+@app.route("/<int:index>",methods=['GET'])
+def retrieve_figure(index):
+	print "the index list is ", index
+	if index not in range(fig.size):
+		abort(404)
+		flash()
+	return figdata_svg[index]
 
 if __name__ == "__main__":
 
@@ -114,4 +121,4 @@ if __name__ == "__main__":
 	# s_html = fig.apply(mpld3.fig_to_html)
 	# s_html_body = s_html.apply(parse_xml)
 
-	app.run(debug = True)
+	app.run(debug = True,host= '0.0.0.0')

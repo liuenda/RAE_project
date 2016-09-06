@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<title>W3.CSS</title>
+<title>Automatic BackTesing System (Hitachi 2016.9)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
 <link rel="stylesheet" href="http://www.w3schools.com/lib/w3-theme-black.css">
@@ -32,8 +32,10 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
   <a href="#" class="w3-hover-black">Link</a>
   <a href="#" class="w3-hover-black">Link</a>
   <a href="#" class="w3-hover-black">Link</a> -->
+  <script type="text/javascript">var name_list=[]</script>
   {% for index, x in  df.iterrows() %}
-     <a href="#" class="w3-hover-black" onclick="show_fig()">{{x[0]+" || "+x[1]}}</a>
+     <a id={{docum~index}} class="button" href="#" class="w3-hover-black" >{{x[0]+" || "+x[1]}}</a>
+     <script type="text/javascript">name_list.push("{{x[0]+" || "+x[1]}}")</script>
   {% endfor %}
 
 </nav>
@@ -45,8 +47,10 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
 
 <!-- Main content: shift it to the right by 250 pixels when the sidenav is visible -->
 <div class="w3-main" style="margin-left:250px">
-  <div class="w3-row w3-padding-64">
-    <div class="w3-twothird w3-container">
+  <div id="main-frame" class="w3-row w3-padding-64">
+    <h1 class="w3-text-teal" style="margin-left:50px">{{df.ix[0][0]+" || "+df.ix[0][1]}}</h1>
+    {{figdata_svg[0]|safe}}
+    <!-- <div class="w3-twothird w3-container">
       <h1 class="w3-text-teal">Heading</h1>
       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum
         dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
@@ -54,7 +58,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
     <div class="w3-third w3-container">
       <p class="w3-border w3-padding-large w3-padding-32 w3-center">AD</p>
       <p class="w3-border w3-padding-large w3-padding-64 w3-center">AD</p>
-    </div>
+    </div> -->
   </div>
 
 
@@ -71,6 +75,9 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
 <!-- END MAIN -->
 </div>
 
+
+<!-- load the jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
 
 <script>
@@ -97,14 +104,25 @@ function w3_close() {
     overlayBg.style.display = "none";
 }
 
-//show figue
-function show_figure(){
-  
-}
+
+//jQuery functions
+$(document).ready(function(){
+    $(".button").click(function(event){
+        // alert(event.target.id);
+        $.get(event.target.id, function(data, status){
+            // alert("Data: " + data + "\nStatus: " + status);
+            $("#main-frame").empty();
+            // alert(name_list[event.target.id])
+            var new_title='<h1 class="w3-text-teal" style="margin-left:50px">'+name_list[event.target.id]+'</h1>' 
+            // alert(new_title)
+            $("#main-frame").append(new_title);
+            $("#main-frame").append(data);
+        });
+    });
+});
 
 </script>
 
 </body>
 </html>
-
 
