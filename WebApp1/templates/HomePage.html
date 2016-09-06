@@ -28,10 +28,14 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
     <i class="fa fa-remove"></i>
   </a>
   <h4><b>Profolio List</b></h4>
+<!--   <a href="#" class="w3-hover-black">Link</a>
   <a href="#" class="w3-hover-black">Link</a>
   <a href="#" class="w3-hover-black">Link</a>
-  <a href="#" class="w3-hover-black">Link</a>
-  <a href="#" class="w3-hover-black">Link</a>
+  <a href="#" class="w3-hover-black">Link</a> -->
+  {% for index, x in  df.iterrows() %}
+     <a href="#" class="w3-hover-black" onclick="show_fig()">{{x[0]+" || "+x[1]}}</a>
+  {% endfor %}
+
 </nav>
 
 <!-- Overlay effect when opening sidenav on small screens -->
@@ -92,6 +96,12 @@ function w3_close() {
     mySidenav.style.display = "none";
     overlayBg.style.display = "none";
 }
+
+//show figue
+function show_figure(){
+  
+}
+
 </script>
 
 </body>
